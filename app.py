@@ -84,11 +84,11 @@ def temps():
 def date_time(start):
     session = Session(engine)
     
-    minim = session.query(func.min(Measurement.tobs)).filter(Measurement.date >= start).all()
-    maxim = session.query(func.max(Measurement.tobs)).filter(Measurement.date >= start).all()
-    averg = session.query(func.avg(Measurement.tobs)).filter(Measurement.date >= start).all()
+    minim = list(np.ravel(session.query(func.min(Measurement.tobs)).filter(Measurement.date >= start).all()))
+    maxim = list(np.ravel(session.query(func.max(Measurement.tobs)).filter(Measurement.date >= start).all()))
+    averg = list(np.ravel(session.query(func.avg(Measurement.tobs)).filter(Measurement.date >= start).all()))
     
-    tobs_dict1 = {'TMIN':minim[0], 'TMAX':maxim[0][0], 'TAVG':averg[0][0]}
+    tobs_dict1 = {'TMIN': minim[0],'TMAX':maxim[0], 'TAVG':averg[0]}
 
     session.close()
 
@@ -98,14 +98,14 @@ def date_time(start):
 def start_end(start, end):
     session = Session(engine)
     
-    minim = session.query(func.min(Measurement.tobs)).filter(Measurement.date >= start).\
-        filter(Measurement.date <= end).all()
-    maxim = session.query(func.max(Measurement.tobs)).filter(Measurement.date >= start).\
-        filter(Measurement.date <= end).all()
-    averg = session.query(func.avg(Measurement.tobs)).filter(Measurement.date >= start).\
-        filter(Measurement.date <= end).all()
+    minim = list(np.ravel(session.query(func.min(Measurement.tobs)).filter(Measurement.date >= start).\
+        filter(Measurement.date <= end).all()))
+    maxim = list(np.ravel(session.query(func.max(Measurement.tobs)).filter(Measurement.date >= start).\
+        filter(Measurement.date <= end).all()))
+    averg = list(np.ravel(session.query(func.avg(Measurement.tobs)).filter(Measurement.date >= start).\
+        filter(Measurement.date <= end).all()))
     
-    tobs_dict2 = {'TMIN':minim[0], 'TMAX':maxim[0][0], 'TAVG':averg[0][0]}
+    tobs_dict2 = {'TMIN':minim[0], 'TMAX':maxim[0], 'TAVG':averg[0]}
 
     session.close()
     
